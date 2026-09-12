@@ -1,8 +1,58 @@
 export type Profile={months:number;graduation:number;floor:number;skills:string[]};
 export const defaultProfile:Profile={months:6,graduation:2025,floor:15,skills:['Python','C++','Java','SQL','FastAPI','Flask','PostgreSQL','Redis','Docker','AWS','React','TypeScript','RAG','LangGraph','PyTorch','TensorFlow','Machine Learning','Git','REST','Data Structures','Algorithms','MongoDB','Celery','Kubernetes'].filter(s=>s!=='Kubernetes'&&s!=='TypeScript')};
 export type Source={id:string;company:string;provider:'greenhouse'|'ashby'|'lever'|'amazon';board:string};
-export const sources:Source[]=[{id:'amazon',company:'Amazon',provider:'amazon',board:'amazon'},...['stripe','coinbase','twilio','databricks','rubrik','okta','postman','netskope'].map(board=>({id:board,company:({stripe:'Stripe',coinbase:'Coinbase',twilio:'Twilio',databricks:'Databricks',rubrik:'Rubrik',okta:'Okta',postman:'Postman',netskope:'Netskope'} as Record<string,string>)[board],provider:'greenhouse' as const,board})),...['sarvam','ema','browserbase','plane'].map(board=>({id:board,company:({sarvam:'Sarvam AI',ema:'Ema',browserbase:'Browserbase',plane:'Plane'} as Record<string,string>)[board],provider:'ashby' as const,board}))];
-export const watchlist=[{company:'Google',url:'https://www.google.com/about/careers/applications/jobs/results/?q=Software%20Engineer&location=India'},{company:'Microsoft',url:'https://careers.microsoft.com/'},{company:'Atlassian',url:'https://www.atlassian.com/company/careers/all-jobs'},{company:'NVIDIA',url:'https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite'},{company:'Adobe',url:'https://careers.adobe.com/'},{company:'Uber',url:'https://www.uber.com/global/en/careers/list/'},{company:'Salesforce',url:'https://careers.salesforce.com/en/jobs/'},{company:'Flipkart',url:'https://www.flipkartcareers.com/'},{company:'DE Shaw',url:'https://www.deshawindia.com/careers'},{company:'Arcesium',url:'https://www.arcesium.com/careers'}];
+const greenhouseBoards:Record<string,string>={stripe:'Stripe',coinbase:'Coinbase',twilio:'Twilio',databricks:'Databricks',rubrik:'Rubrik',okta:'Okta',postman:'Postman',netskope:'Netskope',cloudflare:'Cloudflare',figma:'Figma',discord:'Discord',reddit:'Reddit',lyft:'Lyft',brex:'Brex',airtable:'Airtable',datadog:'Datadog',hubspot:'HubSpot',elastic:'Elastic',mongodb:'MongoDB',samsara:'Samsara'};
+const ashbyBoards:Record<string,string>={sarvam:'Sarvam AI',ema:'Ema',browserbase:'Browserbase',plane:'Plane',linear:'Linear',perplexity:'Perplexity',cursor:'Cursor',vercel:'Vercel',replit:'Replit',modal:'Modal',ramp:'Ramp',deel:'Deel',sentry:'Sentry'};
+export const sources:Source[]=[{id:'amazon',company:'Amazon',provider:'amazon',board:'amazon'},...Object.entries(greenhouseBoards).map(([board,company])=>({id:board,company,provider:'greenhouse' as const,board})),...Object.entries(ashbyBoards).map(([board,company])=>({id:board,company,provider:'ashby' as const,board}))];
+export const watchlist=[
+ {company:'Google',url:'https://www.google.com/about/careers/applications/jobs/results/?q=Software%20Engineer&location=India'},
+ {company:'Microsoft',url:'https://jobs.careers.microsoft.com/global/en/search?q=software%20engineer&lc=India'},
+ {company:'PayPal',url:'https://paypal.wd1.myworkdayjobs.com/en-US/jobs'},
+ {company:'Atlassian',url:'https://www.atlassian.com/company/careers/all-jobs'},
+ {company:'NVIDIA',url:'https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite'},
+ {company:'Adobe',url:'https://careers.adobe.com/us/en/search-results'},
+ {company:'Uber',url:'https://www.uber.com/global/en/careers/list/'},
+ {company:'Salesforce',url:'https://careers.salesforce.com/en/jobs/'},
+ {company:'Flipkart',url:'https://www.flipkartcareers.com/'},
+ {company:'Walmart Global Tech',url:'https://careers.walmart.com/us/en/teams/technology'},
+ {company:'JPMorgan Chase',url:'https://www.jpmorganchase.com/careers'},
+ {company:'Goldman Sachs',url:'https://www.goldmansachs.com/careers'},
+ {company:'DE Shaw',url:'https://www.deshawindia.com/careers'},
+ {company:'Arcesium',url:'https://www.arcesium.com/careers'},
+ {company:'Tower Research',url:'https://www.tower-research.com/open-positions/'},
+ {company:'CRED',url:'https://cred.club/careers'},
+ {company:'Razorpay',url:'https://razorpay.com/jobs/'},
+ {company:'Meesho',url:'https://www.meesho.io/jobs'},
+ {company:'Swiggy',url:'https://careers.swiggy.com/'},
+ {company:'Zomato',url:'https://www.zomato.com/careers'},
+ {company:'PhonePe',url:'https://www.phonepe.com/careers/'},
+ {company:'Groww',url:'https://groww.in/careers'},
+ {company:'Myntra',url:'https://careers.myntra.com/'},
+ {company:'Zoho',url:'https://www.zoho.com/careers/'},
+ {company:'Freshworks',url:'https://www.freshworks.com/company/careers/'},
+ {company:'BrowserStack',url:'https://www.browserstack.com/careers'},
+ {company:'Chargebee',url:'https://www.chargebee.com/careers/'},
+ {company:'InMobi',url:'https://www.inmobi.com/company/careers'},
+ {company:'Mindtickle',url:'https://www.mindtickle.com/careers/'},
+ {company:'Thoughtworks',url:'https://www.thoughtworks.com/careers'},
+ {company:'SAP',url:'https://jobs.sap.com/go/All-Jobs/879901/'},
+ {company:'Oracle',url:'https://www.oracle.com/careers/'},
+ {company:'Cisco',url:'https://jobs.cisco.com/'},
+ {company:'Intel',url:'https://jobs.intel.com/en/search-jobs/India/599/1'},
+ {company:'ServiceNow',url:'https://careers.servicenow.com/'},
+ {company:'Qualcomm',url:'https://careers.qualcomm.com/careers'},
+ {company:'Arm',url:'https://careers.arm.com/'},
+ {company:'OpenAI',url:'https://openai.com/careers/search/'},
+ {company:'Anthropic',url:'https://www.anthropic.com/careers'},
+ {company:'Hugging Face',url:'https://apply.workable.com/huggingface/'},
+ {company:'Scale AI',url:'https://scale.com/careers'},
+ {company:'Mistral AI',url:'https://mistral.ai/careers'},
+ {company:'Cohere',url:'https://cohere.com/careers'},
+ {company:'Snowflake',url:'https://careers.snowflake.com/us/en/search-results'},
+ {company:'Palantir',url:'https://www.palantir.com/careers/'},
+ {company:'Confluent',url:'https://www.confluent.io/about/careers/'},
+ {company:'HashiCorp',url:'https://www.hashicorp.com/career/open-positions'}
+];
 export type Job={id:string;source:string;company:string;title:string;location:string;url:string;description:string;requirements?:string;posted:string|null;dateLabel:string;pay:string;collected:string};
 export type Row={id:string;source:string;payload:string;status:string;notes:string;followup:string;first_seen:string;last_seen:string;availability:string};
 export function plain(s:string){return (s||'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,'').replace(/<\/(?:p|li|div|h\d)>|<br\s*\/?>/gi,'\n').replace(/<[^>]+>/g,' ').replace(/&nbsp;|&#160;/g,' ').replace(/&quot;/g,'"').replace(/&#39;|&apos;/g,"'").replace(/[ \t]+/g,' ').replace(/\n\s*\n/g,'\n').trim();}
