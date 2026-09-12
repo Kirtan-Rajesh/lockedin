@@ -1,0 +1,12 @@
+'use client';
+import {useState} from 'react';
+import {FileText,Save,Upload} from 'lucide-react';
+
+export type BaseResume={filename:string;latex:string;updatedAt?:string};
+
+export default function ResumeLibrary({initial,onSave,saving}:{initial:BaseResume;onSave:(resume:BaseResume)=>Promise<void>;saving:boolean}){
+ const [resume,setResume]=useState<BaseResume>(initial),[fileMessage,setFileMessage]=useState('');
+ function choose(file:File|undefined){if(!file)return;setFileMessage('');const reader=new FileReader();reader.onload=()=>{const text=String(reader.result||'');if(/\.pdf$|\.docx?$/i.test(file.name)){setFileMessage('This file is stored as a reference. Paste editable LaTeX or plain text below for ATS editing.');setResume(x=>({...x,filename:file.name}));}else setResume(x=>({...x,filename:file.name,latex:text}));};reader.onerror=()=>setFileMessage('Could not read this file. Try a .tex, .txt or .md résumé.');reader.readAsText(file);}
+ async function submit(e:React.FormEvent){e.preventDefault();await onSave({...resume,updatedAt:new Date().toISOString()});}
+ return <div className="resume-library"><form className="resume-card" onSubmit={submit}><div className="eyebrow">YOUR RÉSUMÉ LIBRARY</div><h2>One source of truth.</h2><p>Keep your editable résumé here. Tailored copies are created from this profile when you open a job.</p><label className="upload-box"><Upload size={18}/><span>{resume.filename||'Add a résumé file'}</span><input type="file" accept=".tex,.txt,.md,.pdf,.doc,.docx" onChange={e=>choose(e.target.files?.[0])}/></label>{fileMessage&&<small className="muted">{fileMessage}</small>}<label>Editable résumé source<textarea aria-label="Editable résumé source" rows={22} value={resume.latex} onChange={e=>setResume({...resume,latex:e.target.value})} placeholder="Paste your LaTeX or résumé text here…"/></label><button className="button primary" disabled={saving||resume.latex.length<20}><Save size={16}/>{saving?'Saving…':'Save résumé'}</button>{resume.updatedAt&&<small className="muted">Last saved {new Date(resume.updatedAt).toLocaleString()}</small>}</form><article className="resume-help"><FileText size={24}/><h3>Optimize for a job</h3><p>Open any role, choose <strong>Build tailored résumé</strong>, then message the AI reviewer. It returns exact before-and-after edits, explains every change, and lets you apply or undo them.</p><p>Only facts already in your profile and résumé should be used. Review every claim before downloading the PDF.</p></article></div>;
+}

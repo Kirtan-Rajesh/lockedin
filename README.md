@@ -1,5 +1,16 @@
 # vinext-starter
 
+## Launchpad job workspace
+
+This repository contains a multi-user job tracker with résumé storage, a live LaTeX résumé studio, PDF export, AI-assisted optimization, application tracking, and duplicate suppression. Clone it, copy `.env.example` to `.env.local`, and add your own `OPENAI_API_KEY` to enable the OpenAI reviewer. Without a key, the app still provides a local evidence-based review using the job description and verified profile skills.
+
+```sh
+npm install
+npm run dev
+```
+
+The hosted Sites version uses the platform's authenticated user ID. Local clones use a browser workspace ID, so separate users on the same installation get separate résumé, settings, and pipeline data. Do not commit `.env.local` or any API key.
+
 A clean full-stack starter running on [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and Drizzle support.
 
 ## Prerequisites

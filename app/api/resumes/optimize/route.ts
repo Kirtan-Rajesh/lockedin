@@ -3,6 +3,7 @@ import {database,guard} from '../../../../lib/database';
 import {resumeFacts} from '../../../../lib/resume';
 import {validateOptimization} from '../../../../lib/resume-changes';
 import {assess,defaultProfile,plain} from '../../../../lib/jobs';
+import {workspaceId} from '../../../../lib/identity';
 const config=()=>env as unknown as {OPENAI_API_KEY?:string;OPENAI_MODEL?:string};
 export async function GET(){return Response.json({available:!!config().OPENAI_API_KEY,localAvailable:true},{headers:{'Cache-Control':'no-store'}});}
 function localReview(latex:string,job:any){
@@ -20,8 +21,9 @@ function localReview(latex:string,job:any){
 export async function POST(req:Request){
  try{
   guard(req);
+  const user=workspaceId(req);
   const b=await req.json() as any;
-  if(typeof b.jobId!=='string'||typeof b.latex!=='string'||b.latex.length<100||b.latex.length>50000||typeof b.instruction!=='string'||b.instruction.length>2000)return Response.json({error:'Invalid optimization request.'},{status:400});
+  if(typeof b.jobId!=='string'||!b.jobId.startsWith(`${user}:`)||typeof b.latex!=='string'||b.latex.length<100||b.latex.length>50000||typeof b.instruction!=='string'||b.instruction.length>2000)return Response.json({error:'Invalid optimization request.'},{status:400});
   const row=await database().prepare('SELECT payload FROM jobs WHERE id=?').bind(b.jobId).first<{payload:string}>();
   if(!row)return Response.json({error:'Job not found.'},{status:404});
   const job=JSON.parse(row.payload);
