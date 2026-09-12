@@ -1,6 +1,6 @@
 # vinext-starter
 
-## Launchpad job workspace
+## lockedin job workspace
 
 This repository contains a multi-user job tracker with résumé storage, a live LaTeX résumé studio, PDF export, AI-assisted optimization, application tracking, and duplicate suppression. Clone it, copy `.env.example` to `.env.local`, and add your own `OPENAI_API_KEY` to enable the OpenAI reviewer. Without a key, the app still provides a local evidence-based review using the job description and verified profile skills.
 

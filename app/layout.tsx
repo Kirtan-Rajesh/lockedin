@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Launchpad · Your next career move",
+  title: "lockedin · Your next career move",
   description: "Early-career SDE job discovery, transparent fit checks and application tracking.",
   other: {
     "codex-preview": "development",
