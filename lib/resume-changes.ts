@@ -1,5 +1,5 @@
 export type ResumeChange={before:string;after:string;reason:string};
-export type Optimization={summary:string;changes:ResumeChange[];warnings:string[]};
+export type Optimization={summary:string;changes:ResumeChange[];warnings:string[];mode?:'ai'|'local'};
 export function validateOptimization(value:unknown,source:string):Optimization {
   const v=value as Optimization;
   if(!v||typeof v.summary!=='string'||!Array.isArray(v.changes)||v.changes.length>25||!Array.isArray(v.warnings)||!v.warnings.every(x=>typeof x==='string'))throw Error('Invalid optimization report.');
