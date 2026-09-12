@@ -1,0 +1,4 @@
+import initial from './initial-jobs.json';
+// Bounded first-run snapshot import; schema creation belongs to Drizzle migrations.
+// INSERT OR IGNORE preserves any records already collected by a concurrent refresh.
+export async function initialise(db:D1Database){if(await db.prepare("SELECT id FROM settings WHERE id='initialised'").first())return;const statements=initial.jobs.map(r=>db.prepare('INSERT OR IGNORE INTO jobs(id,source,payload,status,notes,followup,first_seen,last_seen,availability) VALUES(?,?,?,?,?,?,?,?,?)').bind(r.id,r.source,r.payload,r.status,r.notes,r.followup,r.first_seen,r.last_seen,r.availability));for(const s of initial.scans)statements.push(db.prepare('INSERT OR IGNORE INTO scans(id,checked,result) VALUES(?,?,?)').bind(s.id,s.checked,s.result));statements.push(db.prepare("INSERT OR IGNORE INTO settings(id,payload) VALUES('initialised','true')"));await db.batch(statements);}
